@@ -1,5 +1,5 @@
 from Core.Packets.Packet import Packet
-from quarry.types.nbt import RegionFile
+from quarry.types.nbt import RegionFile, TagRoot
 from quarry.types.chunk import BlockArray
 import os
 
@@ -75,7 +75,7 @@ class ChunkDataPacket(Packet):
                 block_light = None
                 sky_light = None
                 sections[y] = (blocks, block_light, sky_light)
-        heightmap = self.infos["Heightmaps"]
+        heightmap = TagRoot.from_body(self.infos["Heightmaps"])
         biomes = self.infos["Biomes"].value
         blocks_entities = self.infos["TileEntities"].value
         super(ChunkDataPacket, self).__init__(protocol.buff_type, "chunk_data", (
