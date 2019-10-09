@@ -1,5 +1,7 @@
 from Core.Packets.Packet import Packet
+from quarry.types.nbt import RegionFile
 from quarry.types.chunk import BlockArray
+import os
 
 
 class ChatMessagePacket(Packet):
@@ -61,16 +63,26 @@ class StatusResponsePacket(Packet):
 
 
 class ChunkDataPacket(Packet):
-    def __init__(self, buff, x=0, z=0, full=True, heightmap=None, sections=(None,)*16,
-                 biomes=None, blocks_entities=()):
-        super(ChunkDataPacket, self).__init__(
-            buff, "chunk_data",
-            (
-                ("pack", "ii?", x, z, full),
-                ("chunk_section", sections),
-                ("nbt", heightmap),
-                ("chunk", sections, biomes),
-                ("int", len(blocks_entities)),
-                ("list_nbt", blocks_entities)
-            )
-        )
+    def __init__(self, protocol, file, x, z):
+        file = RegionFile(os.path.join(os.path.dirname(__file__), "..", "World", "regions", file))
+        self.infos = file.load_chunk(x, z).body.value["Level"].value
+        full = self.infos["Status"].value == 'full'
+        sections = [None] * 16
+        for section in self.infos["Sections"].value:
+            if 'Palette' in section.value:
+                y = section.value["Y"].value
+                blocks = BlockArray.from_nbt(section, protocol.factory.registry)
+                block_light = None
+                sky_light = None
+                sections[y] = (blocks, block_light, sky_light)
+        heightmap = self.infos["Heightmaps"]
+        biomes = self.infos["Biomes"].value
+        blocks_entities = self.infos["TileEntities"].value
+        super(ChunkDataPacket, self).__init__(protocol.buff_type, "chunk_data", (
+            ("pack", "ii?", x, z, full),
+            ("chunk_bitmask", sections),
+            ("nbt", heightmap),
+            ("chunk", sections, biomes),
+            ("int", len(blocks_entities)),
+            ("list_nbt", blocks_entities)
+        ))

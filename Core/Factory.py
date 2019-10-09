@@ -1,6 +1,8 @@
 import logging
+import os
 
 from quarry.net.server import ServerFactory
+from quarry.types.registry import LookupRegistry
 
 from Core.Protocol import Protocol
 
@@ -17,4 +19,6 @@ class Factory(ServerFactory):
         self.logger = logging.getLogger("Server")
         self.logger.setLevel(self.log_level)
         self.logger.info("Server started.")
+
+        self.registry = LookupRegistry.from_json(os.path.join(os.path.dirname(__file__), "Datas"))
 

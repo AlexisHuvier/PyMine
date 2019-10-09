@@ -6,10 +6,13 @@ class World:
         self.protocol = protocol
 
     def player_joined(self):
-        for i in range(-1, 2):
-            for j in range(-1, 2):
-                self.send_empty_chunk(i, j)
+        self.send_region(0, 0)
 
-    def send_empty_chunk(self, x, z):
-        cdpacket = ChunkDataPacket(self.protocol.buff_type, x=x, z=z)
-        self.protocol.send_packet(cdpacket.type_, *cdpacket.datas)
+    def send_region(self, x, z):
+        for i in range(0, 6):
+            for j in range(0, 6):
+                try:
+                    cdpacket = ChunkDataPacket(self.protocol, "r."+str(x)+"."+str(z)+".mca", i, j)
+                    self.protocol.send_packet(cdpacket.type_, *cdpacket.datas)
+                except ValueError:
+                    pass

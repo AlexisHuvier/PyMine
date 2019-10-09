@@ -20,8 +20,8 @@ class Packet:
                 liste.append(self.buff.pack_position(i[1], i[2], i[3]))
             elif i[0] == "json":
                 liste.append(self.buff.pack_json(i[1]))
-            elif i[0] == "chunk_section":
-                liste.append(self.buff.pack_chunk_section(i[1]))
+            elif i[0] == "chunk_bitmask":
+                liste.append(self.buff.pack_chunk_bitmask(i[1]))
             elif i[0] == "nbt":
                 liste.append(self.buff.pack_nbt(i[1]))
             elif i[0] == "chunk":
