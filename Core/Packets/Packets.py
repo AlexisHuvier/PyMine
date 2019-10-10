@@ -63,9 +63,14 @@ class StatusResponsePacket(Packet):
 
 
 class ChunkDataPacket(Packet):
-    def __init__(self, protocol, file, x, z):
+    def __init__(self, protocol, file, xchunk, zchunk, xplayer=None, zplayer=None):
+        if xplayer is None:
+            xplayer = xchunk
+        if zplayer is None:
+            zplayer = zchunk
+
         file = RegionFile(os.path.join(os.path.dirname(__file__), "..", "World", "regions", file))
-        self.infos = file.load_chunk(x, z).body.value["Level"].value
+        self.infos = file.load_chunk(xchunk, zchunk).body.value["Level"].value
         full = self.infos["Status"].value == 'full'
         sections = [None] * 16
         for section in self.infos["Sections"].value:
@@ -79,7 +84,7 @@ class ChunkDataPacket(Packet):
         biomes = self.infos["Biomes"].value
         blocks_entities = self.infos["TileEntities"].value
         super(ChunkDataPacket, self).__init__(protocol.buff_type, "chunk_data", (
-            ("pack", "ii?", x, z, full),
+            ("pack", "ii?", xplayer, zplayer, full),
             ("chunk_bitmask", sections),
             ("nbt", heightmap),
             ("chunk", sections, biomes),

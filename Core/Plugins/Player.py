@@ -10,5 +10,5 @@ class Player:
         self.protocol.send_packet(jpacket.type_, *jpacket.datas)
         spacket = SpawnPositionPacket(self.protocol.buff_type)
         self.protocol.send_packet(spacket.type_, *spacket.datas)
-        plpacket = PlayerPositionLookPacket(self.protocol.buff_type)
+        plpacket = PlayerPositionLookPacket(self.protocol.buff_type, x=8, y=8, z=8)
         self.protocol.send_packet(plpacket.type_, *plpacket.datas)
