@@ -6,7 +6,9 @@ class World:
         self.protocol = protocol
 
     def player_joined(self):
-        self.send_chunk(0, 0)
+        for x in range(0, 2):
+            for z in range(0, 2):
+                self.send_chunk(x, z)
 
     def send_chunk(self, x, z):
         try:
