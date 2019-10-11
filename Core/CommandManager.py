@@ -1,3 +1,10 @@
+class CommandContext:
+    def __init__(self, protocol):
+        self.chat = protocol.core_plugins["chat"]
+        self.player = protocol.core_plugins["player"]
+        self.protocol = protocol
+
+
 class CommandManager:
     def __init__(self, factory):
         self.factory = factory
@@ -12,7 +19,7 @@ class CommandManager:
     def call_command(self, protocol, message):
         command, *args = message.split(" ")
         if command in self.commands.keys():
-            self.commands[command](protocol, *args)
+            self.commands[command](CommandContext(protocol), *args)
         else:
             protocol.core_plugins["chat"].send_to(
                 protocol,
