@@ -7,6 +7,9 @@ class Chat:
 
     def packet_chat_message(self, buff):
         message = buff.unpack_string()
+        if message[0] == "/":
+            self.protocol.factory.command_manager.call_command(self.protocol, message[1:])
+        else:
             self.send_to_all(self.protocol.factory.config.get("messages.chat_format", "<{}> {}")
                              .format(self.protocol.display_name, message))
             self.protocol.factory.plugin_manager.call("chat_message", message)
