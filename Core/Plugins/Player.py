@@ -8,7 +8,13 @@ class Player:
     def player_joined(self):
         jpacket = JoinGamePacket(self.protocol.buff_type, gamemode=1)
         self.protocol.send_packet(jpacket.type_, *jpacket.datas)
-        spacket = SpawnPositionPacket(self.protocol.buff_type)
+        self.set_spawn_position(8, 8, 8)
+        self.set_position(8, 8, 8)
+
+    def set_spawn_position(self, x, y, z):
+        spacket = SpawnPositionPacket(self.protocol.buff_type, x, y, z)
         self.protocol.send_packet(spacket.type_, *spacket.datas)
-        plpacket = PlayerPositionLookPacket(self.protocol.buff_type, x=8, y=8, z=8)
+
+    def set_position(self, x, y, z):
+        plpacket = PlayerPositionLookPacket(self.protocol.buff_type, x=x, y=y, z=z)
         self.protocol.send_packet(plpacket.type_, *plpacket.datas)
