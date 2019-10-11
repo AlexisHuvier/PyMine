@@ -5,13 +5,11 @@ from quarry.net.server import ServerFactory
 from quarry.types.registry import LookupRegistry
 
 from Core.Protocol import Protocol
+from Core.Config import Config
 
 
 class Factory(ServerFactory):
     protocol = Protocol
-    motd = "PyMine Server"
-    online_mode = True
-    max_players = 10
 
     def __init__(self):
         super(Factory, self).__init__()

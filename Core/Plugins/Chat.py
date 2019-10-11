@@ -7,9 +7,13 @@ class Chat:
 
     def packet_chat_message(self, buff):
         message = buff.unpack_string()
-        self.send_to_all("<{}> {}".format(self.protocol.display_name, message))
+            self.send_to_all(self.protocol.factory.config.get("messages.chat_format", "<{}> {}")
+                             .format(self.protocol.display_name, message))
 
     def send_to_all(self, message):
-        cpacket = ChatMessagePacket(self.protocol.buff_type, message)
         for player in self.protocol.factory.players:
-            player.send_packet(cpacket.type_, *cpacket.datas)
+            self.send_to(player, message)
+
+    def send_to(self, player, message):
+        cpacket = ChatMessagePacket(self.protocol.buff_type, message)
+        player.send_packet(cpacket.type_, *cpacket.datas)

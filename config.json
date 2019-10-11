@@ -4,4 +4,10 @@
         "online_mode": true,
         "max_players": 5
     },
+    "messages": {
+        "chat_format": "<{}> {}",
+        "player_joined": "{} a rejoint le serveur.",
+        "player_left": "{} a quitté le serveur.",
+        "command_not_exist": "La commande {} n'existe pas."
+    }
 }
