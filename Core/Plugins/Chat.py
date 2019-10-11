@@ -9,6 +9,7 @@ class Chat:
         message = buff.unpack_string()
             self.send_to_all(self.protocol.factory.config.get("messages.chat_format", "<{}> {}")
                              .format(self.protocol.display_name, message))
+            self.protocol.factory.plugin_manager.call("chat_message", message)
 
     def send_to_all(self, message):
         for player in self.protocol.factory.players:

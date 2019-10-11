@@ -1,0 +1,5 @@
+{
+    "name": "Demo Plugin",
+    "description": "A demo plugin for PyMine",
+    "main_file": "demo"
+}

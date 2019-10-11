@@ -6,6 +6,7 @@ from quarry.types.registry import LookupRegistry
 
 from Core.Protocol import Protocol
 from Core.Config import Config
+from Core.PluginManager import PluginManager
 
 
 class Factory(ServerFactory):
@@ -23,5 +24,7 @@ class Factory(ServerFactory):
         self.motd = self.config.get("server.motd", "PyMine Server")
         self.online_mode = self.config.get("server.online_mode", True)
         self.max_players = self.config.get("server.max_players", 10)
+        self.plugin_manager = PluginManager(self, self.config.get("plugins", []))
+
         self.registry = LookupRegistry.from_json(os.path.join(os.path.dirname(__file__), "Datas"))
 

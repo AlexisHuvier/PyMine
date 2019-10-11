@@ -4,6 +4,9 @@
         "online_mode": true,
         "max_players": 5
     },
+    "plugins": [
+        "Demo/demo.json"
+    ],
     "messages": {
         "chat_format": "<{}> {}",
         "player_joined": "{} a rejoint le serveur.",

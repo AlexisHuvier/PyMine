@@ -19,6 +19,7 @@ class Protocol(ServerProtocol):
         self.core_plugins["world"].player_joined()
         self.core_plugins["chat"].send_to_all(
             self.factory.config.get("messages.player_joined", "{} a rejoint le serveur").format(self.display_name))
+        self.factory.plugin_manager.call("player_joined", self)
 
         self.ticker.add_loop(20, self.update_keep_alive)
 
@@ -26,6 +27,7 @@ class Protocol(ServerProtocol):
         super(Protocol, self).player_left()
         self.core_plugins["chat"].send_to_all(
             self.factory.config.get("messages.player_left", "{} a quitté le serveur").format(self.display_name))
+        self.factory.plugin_manager.call("player_left", self)
 
     def update_keep_alive(self):
         kpacket = KeepAlivePacket(self.buff_type)
