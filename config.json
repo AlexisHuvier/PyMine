@@ -5,7 +5,8 @@
         "max_players": 5
     },
     "plugins": [
-        "Demo/demo.json"
+        "Demo/demo.json",
+        "Essentials/essentials.json"
     ],
     "messages": {
         "chat_format": "<{}> {}",

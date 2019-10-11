@@ -19,11 +19,12 @@ class PluginManager:
     def __init__(self, factory, plugins):
         self.factory = factory
         self.plugins = [Plugin(i) for i in plugins]
+        self.factory.logger.info("Plugin loaded : {}".format(", ".join([i.name for i in self.plugins])))
         self.call("start", self.factory)
 
     def call(self, function, *args):
         for i in self.plugins:
-            fnc = getattr(i.instance, function)
-            if fnc:
+            if hasattr(i.instance, function):
+                fnc = getattr(i.instance, function)
                 fnc(*args)
 
