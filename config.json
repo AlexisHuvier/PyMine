@@ -1,0 +1,7 @@
+{
+    "server": {
+        "motd": "PyMine Server",
+        "online_mode": true,
+        "max_players": 5
+    },
+}
