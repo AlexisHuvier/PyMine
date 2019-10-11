@@ -18,13 +18,17 @@
 
 - Player's connection 
 - Chat
+- Basic Plugin System
+- Basic Command System
+- Send some chunks
 
 ## Upcoming Features
 
+- Permission system
+- Upgrade Plugin System
+- Upgrade Command System
 - World generation
 - World saving
-- Plugins in Python
-- ...
 
 ## Changelog
 
