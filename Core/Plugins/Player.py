@@ -18,3 +18,8 @@ class Player:
     def set_position(self, x, y, z):
         plpacket = PlayerPositionLookPacket(self.protocol.buff_type, x=x, y=y, z=z)
         self.protocol.send_packet(plpacket.type_, *plpacket.datas)
+    def set_player_list_header_footer(self, header="", footer=""):
+        plpacket = PlayerListPacket(self.protocol.buff_type, header, footer)
+        self.protocol.send_packet(plpacket.type_, *plpacket.datas)
+
+
