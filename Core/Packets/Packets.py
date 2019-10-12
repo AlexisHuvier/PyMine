@@ -15,6 +15,17 @@ class PlayerListPacket(Packet):
         )
 
 
+class TitlePacket(Packet):
+    def __init__(self, buff, text="", position=0):
+        super(TitlePacket, self).__init__(
+            buff, "title",
+            (
+                ("int", position),
+                ("chat", text)
+            )
+        )
+
+
 class ChatMessagePacket(Packet):
     def __init__(self, buff, message):
         super(ChatMessagePacket, self).__init__(
