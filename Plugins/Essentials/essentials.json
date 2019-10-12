@@ -1,5 +1,6 @@
 {
     "name": "Essentials",
     "description": "Add a lot of commands",
+    "version": "1.0",
     "main_file": "essentials"
 }

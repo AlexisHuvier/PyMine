@@ -11,6 +11,7 @@ class Plugin:
         self.file = file
         self.name = data["name"]
         self.description = data["description"]
+        self.version = data["version"]
         self.module = importlib.import_module("Plugins."+os.path.dirname(file)+"."+data["main_file"])
         self.instance = self.module.instance
 
