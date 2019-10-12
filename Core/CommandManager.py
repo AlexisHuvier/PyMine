@@ -17,6 +17,12 @@ class CommandContext:
         self.chat = protocol.core_plugins["chat"]
         self.player = protocol.core_plugins["player"]
         self.protocol = protocol
+        self.players = protocol.factory.players
+
+    def is_op(self, username):
+        if username in self.protocol.factory.command_manager.ops:
+            return True
+        return False
 
 
 class CommandManager:
