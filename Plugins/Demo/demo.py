@@ -3,7 +3,7 @@ class Demo:
         print("Demo : INIT.")
 
     def start(self, factory):
-        factory.command_manager.register("demo", self.command_info)
+        factory.command_manager.register("demo", self.command_info, "Info du plugin Demo")
         print("Demo : START. (Factory :", factory, ")")
 
     def player_joined(self, protocol):
