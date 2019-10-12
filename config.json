@@ -13,5 +13,8 @@
         "player_joined": "{} a rejoint le serveur.",
         "player_left": "{} a quitté le serveur.",
         "command_not_exist": "La commande {} n'existe pas."
-    }
+    },
+    "ops": [
+        "LavaPowerMC"
+    ]
 }

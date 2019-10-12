@@ -9,6 +9,7 @@ class CommandManager:
     def __init__(self, factory):
         self.factory = factory
         self.commands = {}
+        self.ops = factory.config.get("ops", [])
 
     def register(self, command, function):
         if command in self.commands.keys():
