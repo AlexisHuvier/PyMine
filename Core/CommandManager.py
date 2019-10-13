@@ -6,21 +6,22 @@ class Command:
         self.description = description
 
     def execute(self, ctx, *args):
-        if self.permission == 1 and not ctx.is_op(ctx.protocol.display_name):
+        if self.permission == 1 and not ctx.is_op(ctx.player.display_name):
             ctx.chat.send_to(ctx.protocol, "Vous n'êtes pas op.")
         else:
             self.function(ctx, *args)
 
 
 class CommandContext:
-    def __init__(self, protocol):
-        self.chat = protocol.core_plugins["chat"]
-        self.player = protocol.core_plugins["player"]
-        self.protocol = protocol
-        self.players = protocol.factory.players
+    def __init__(self, player):
+        self.player = player
+        self.chat = player.chat
+        self.server_utils = player.server_utils
+        self.world = player.world
+        self.players = player.factory.players
 
     def is_op(self, username):
-        if username in self.protocol.factory.command_manager.ops:
+        if username in self.player.server.command_manager.ops:
             return True
         return False
 
@@ -44,6 +45,5 @@ class CommandManager:
             if i.name == command:
                 i.execute(CommandContext(protocol), *args)
                 return
-        protocol.core_plugins["chat"].send_to(protocol,
-                                              self.factory.config.get("messages.command_not_exist",
-                                                                      "La commande {} n'existe pas.").format(command))
+        protocol.chat.send_to(protocol, self.factory.config.get("messages.command_not_exist",
+                                                                "La commande {} n'existe pas.").format(command))

@@ -4,17 +4,17 @@ import os
 from quarry.net.server import ServerFactory
 from quarry.types.registry import LookupRegistry
 
-from Core.Protocol import Protocol
+from Core.Player import Player
 from Core.Config import Config
 from Core.PluginManager import PluginManager
 from Core.CommandManager import CommandManager
 
 
-class Factory(ServerFactory):
-    protocol = Protocol
+class Server(ServerFactory):
+    protocol = Player
 
     def __init__(self):
-        super(Factory, self).__init__()
+        super(Server, self).__init__()
 
         self.logger = logging.getLogger("Server")
         self.logger.setLevel(self.log_level)
