@@ -42,7 +42,6 @@ class Player(ServerProtocol):
             if handler:
                 try:
                     handler(buff)
-                    assert len(buff) == 0, "Packet too long: %s" % method_name
                 except Exception as e:
                     self.logger.exception(e)
                 buff.restore()
