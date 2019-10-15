@@ -10,10 +10,13 @@ class Demo:
         print("Demo : PLAYER_JOINED. (Player :", player, ")")
 
     def player_left(self, player):
-        print("Demo : PLAYER_LEFT. (Protocol :", player, ")")
+        print("Demo : PLAYER_LEFT. (Player :", player, ")")
 
     def chat_message(self, message):
         print("Demo : CHAT_MESSAGE. (Message :", message, ")")
+
+    def block_placement(self, player, block_info):
+        print("Demo : BLOCK_PLACEMENT. (Player :", player, ". Info :", block_info, ")")
 
     def command_info(self, ctx, *args):
         print("Demo : COMMAND_INFO.")
