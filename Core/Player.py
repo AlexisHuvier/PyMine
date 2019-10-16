@@ -72,3 +72,7 @@ class Player(ServerProtocol):
     def disconnect(self, message=""):
         dpacket = DisconnectPacket(self.buff_type, message)
         self.send_packet(dpacket.type_, *dpacket.datas)
+
+    def set_heath_food(self, heath=20, food=20, saturation=0.5):
+        hfpacket = HealthFoodPacket(self.buff_type, heath, food, saturation)
+        self.send_packet(hfpacket.type_, *hfpacket.datas)

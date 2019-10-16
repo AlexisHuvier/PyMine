@@ -4,6 +4,17 @@ from quarry.types.chunk import BlockArray
 import os
 
 
+class HealthFoodPacket(Packet):
+    def __init__(self, buff, health=20, food=20, saturation=0.5):
+        super(HealthFoodPacket, self).__init__(
+            buff, "update_health",
+            (
+                ("pack", "ff", health, saturation),
+                ("int", food)
+            )
+        )
+
+
 class DisconnectPacket(Packet):
     def __init__(self, buff, message=""):
         super(DisconnectPacket, self).__init__(

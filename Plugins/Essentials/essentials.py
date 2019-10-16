@@ -11,12 +11,27 @@ class Essentials:
             ["broadcast", self.command_broadcast, "Faire une annonce globale", 1],
             ["plugins", self.command_plugins, "Liste des plugins installés"],
             ["kick", self.command_kick, "Ejecte quelqu'un du server", 1],
+            ["heal", self.command_heal, "Donen toute sa vie et sa bouffe à un joueur", 1]
         ]
         for command in commands:
             server.command_manager.register(*command)
 
     def player_joined(self, player):
         player.set_player_list_header_footer("Serveur PyMine", "Réalisé par LavaPower")
+
+    def command_heal(self, ctx, *args):
+        if len(args):
+            name = args[0]
+            for i in ctx.players:
+                if i.display_name == name:
+                    i.set_health_food()
+                    ctx.chat.send_to(ctx.player, "Joueur soigné : "+name)
+                    ctx.chat.send_to(i, ctx.player.display_name + " t'a soigné")
+                    return
+            ctx.chat.send_to(ctx.player, "Joueur introuvable : "+name)
+        else:
+            ctx.player.set_heath_food()
+            ctx.chat.send_to(ctx.player, "Tu t'es soigné")
 
     def command_kick(self, ctx, *args):
         if len(args):
