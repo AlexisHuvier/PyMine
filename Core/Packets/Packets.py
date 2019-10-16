@@ -4,6 +4,16 @@ from quarry.types.chunk import BlockArray
 import os
 
 
+class DisconnectPacket(Packet):
+    def __init__(self, buff, message=""):
+        super(DisconnectPacket, self).__init__(
+            buff, "disconnect",
+            (
+                ("chat", message),
+            )
+        )
+
+
 class PlayerListPacket(Packet):
     def __init__(self, buff, header="", footer=""):
         super(PlayerListPacket, self).__init__(

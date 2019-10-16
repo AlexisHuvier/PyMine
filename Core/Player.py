@@ -68,3 +68,7 @@ class Player(ServerProtocol):
     def set_player_list_header_footer(self, header="", footer=""):
         plpacket = PlayerListPacket(self.buff_type, header, footer)
         self.send_packet(plpacket.type_, *plpacket.datas)
+
+    def disconnect(self, message=""):
+        dpacket = DisconnectPacket(self.buff_type, message)
+        self.send_packet(dpacket.type_, *dpacket.datas)

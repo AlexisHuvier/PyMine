@@ -9,13 +9,30 @@ class Essentials:
             ["stop", self.command_stop, "Arrête le serveur", 1],
             ["tp", self.command_tp, "Se téléporter à des coordonnées", 1],
             ["broadcast", self.command_broadcast, "Faire une annonce globale", 1],
-            ["plugins", self.command_plugins, "Liste des plugins installés"]
+            ["plugins", self.command_plugins, "Liste des plugins installés"],
+            ["kick", self.command_kick, "Ejecte quelqu'un du server", 1],
         ]
         for command in commands:
             server.command_manager.register(*command)
 
     def player_joined(self, player):
         player.set_player_list_header_footer("Serveur PyMine", "Réalisé par LavaPower")
+
+    def command_kick(self, ctx, *args):
+        if len(args):
+            name = args[0]
+            reason = " ".join(args[1:])
+            if reason == "":
+                reason = "Tu as été kick sans raison."
+            else:
+                reason = "Tu as été kick pour : "+reason
+            for i in ctx.players:
+                if i.display_name == name:
+                    i.disconnect(reason)
+                    return
+            ctx.chat.send_to(ctx.player, "Joueur introuvable : "+name)
+        else:
+            ctx.chat.send_to(ctx.player, "Usage : /kick <name> [reason]")
 
     def command_plugins(self, ctx, *args):
         ctx.chat.send_to(ctx.player, "Liste des Plugins")
