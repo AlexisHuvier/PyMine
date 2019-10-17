@@ -47,6 +47,10 @@ class Player(ServerProtocol):
                 buff.restore()
         super(Player, self).packet_received(buff, name)
 
+    def packet_use_item(self, buff):
+        main_hand = buff.unpack_varint() == 0
+        self.server.plugin_manager.call("use_item", self, main_hand)
+
     def set_spawn_position(self, x, y, z):
         spacket = SpawnPositionPacket(self.buff_type, x, y, z)
         self.send_packet(spacket.type_, *spacket.datas)
