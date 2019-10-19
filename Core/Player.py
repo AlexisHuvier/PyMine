@@ -2,10 +2,13 @@ from quarry.net.server import ServerProtocol
 from Core.Plugins import ServerUtils, Chat, World
 from Core.Packets import *
 
+import logging
+
 
 class Player(ServerProtocol):
     def __init__(self, factory, remote_addr):
         super(Player, self).__init__(factory, remote_addr)
+        self.logger.setLevel(logging.ERROR)
         self.chat = Chat(self)
         self.server_utils = ServerUtils(self)
         self.world = World(self)
@@ -20,6 +23,8 @@ class Player(ServerProtocol):
         self.world.player_joined()
         self.chat.send_to_all(
             self.factory.config.get("messages.player_joined", "{} a rejoint le serveur").format(self.display_name))
+        self.factory.logger.info(
+            self.factory.config.get("messages.player_joined", "{} a rejoint le serveur").format(self.display_name))
         self.factory.plugin_manager.call("player_joined", self)
 
         self.ticker.add_loop(20, self.update_keep_alive)
@@ -27,6 +32,8 @@ class Player(ServerProtocol):
     def player_left(self):
         super(Player, self).player_left()
         self.chat.send_to_all(
+            self.factory.config.get("messages.player_left", "{} a quitté le serveur").format(self.display_name))
+        self.factory.logger.info(
             self.factory.config.get("messages.player_left", "{} a quitté le serveur").format(self.display_name))
         self.factory.plugin_manager.call("player_left", self)
 

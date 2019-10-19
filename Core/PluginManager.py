@@ -21,7 +21,6 @@ class PluginManager:
         self.factory = factory
         self.plugins = [Plugin(i) for i in plugins]
         self.factory.logger.info("Plugin loaded : {}".format(", ".join([i.name for i in self.plugins])))
-        self.call("start", self.factory)
 
     def call(self, function, *args):
         for i in self.plugins:
