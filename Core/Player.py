@@ -1,6 +1,7 @@
 from quarry.net.server import ServerProtocol
 from Core.Plugins import ServerUtils, Chat, World
 from Core.Packets import *
+from Core.Objects import PlayerInfo
 
 import logging
 
@@ -12,11 +13,13 @@ class Player(ServerProtocol):
         self.chat = Chat(self)
         self.server_utils = ServerUtils(self)
         self.world = World(self)
+        self.infos = PlayerInfo()
         self.server = factory
 
     def player_joined(self):
         super(Player, self).player_joined()
-        jpacket = JoinGamePacket(self.buff_type, gamemode=1)
+        self.infos.gamemode = 1
+        jpacket = JoinGamePacket(self.buff_type, gamemode=self.infos.gamemode)
         self.send_packet(jpacket.type_, *jpacket.datas)
         self.set_spawn_position(8, 8, 8)
         self.set_position(8, 8, 8)
@@ -63,6 +66,7 @@ class Player(ServerProtocol):
         self.send_packet(spacket.type_, *spacket.datas)
 
     def set_position(self, x, y, z):
+        self.infos.set_position(x, y, z)
         plpacket = PlayerPositionLookPacket(self.buff_type, x=x, y=y, z=z)
         self.send_packet(plpacket.type_, *plpacket.datas)
 
