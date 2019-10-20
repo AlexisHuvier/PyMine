@@ -19,6 +19,30 @@ class World:
             "x": x, "y": y, "z": z, "main_hand": main_hand, "face": face, "crx": crx, "cry": cry, "crz": crz
         })
 
+    def packet_player_digging(self, buff):
+        status = buff.unpack_varint()
+        x, y, z = buff.unpack_position()
+        face = buff.unpack_varint()
+        functions = ["start_digging", "cancel_digging", "finish_digging", "drop_item_stack", "drop_item",
+                     "shoot_arrow|finish_eating", "swap_hand"]
+        args = []
+
+        if status in (0, 1, 2):
+            for i in [x, y, z, face]:
+                args.append(i)
+            if status == 2 and self.protocol.infos.gamemode != 1:
+                print("DROP")
+        elif status in (3, 4):
+            if status == 3:
+                print("STACK DROP")
+                status = 4
+            else:
+                print("DROP")
+        elif status == 5:
+            functions[5] = functions[5].split("|")[0]
+
+        self.protocol.server.plugin_manager.call(functions[status], self.protocol, *args)
+
     def send_chunk(self, x, z):
         try:
             cdpacket = ChunkDataPacket(self.protocol, "r.0.0.mca", 0, 0, x, z)
