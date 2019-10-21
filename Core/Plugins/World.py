@@ -1,4 +1,4 @@
-from Core.Packets import ChunkDataPacket
+from Core.Packets import ChunkDataPacket, BlockChangePacket
 
 
 class World:
@@ -9,6 +9,11 @@ class World:
         for x in range(0, 2):
             for z in range(0, 2):
                 self.send_chunk(x, z)
+
+    def set_block(self, x, y, z, idblock):
+        bspacket = BlockChangePacket(self.protocol.buff_type, int(x), int(y), int(z), int(idblock))
+        for i in self.protocol.server.players:
+            i.send_packet(bspacket.type_, *bspacket.datas)
 
     def packet_player_block_placement(self, buff):
         main_hand = buff.unpack_varint() == 0

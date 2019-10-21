@@ -11,13 +11,21 @@ class Essentials:
             ["broadcast", self.command_broadcast, "Faire une annonce globale", 1],
             ["plugins", self.command_plugins, "Liste des plugins installés"],
             ["kick", self.command_kick, "Ejecte quelqu'un du server", 1],
-            ["heal", self.command_heal, "Donen toute sa vie et sa bouffe à un joueur", 1]
+            ["heal", self.command_heal, "Donne toute sa vie et sa bouffe à un joueur", 1],
+            ["setblock", self.command_setblock, "Défini un bloc", 1]
         ]
         for command in commands:
             server.command_manager.register(*command)
 
     def player_joined(self, player):
         player.set_player_list_header_footer("Serveur PyMine", "Réalisé par LavaPower")
+
+    def command_setblock(self, ctx, *args):
+        if len(args) == 4:
+            ctx.world.set_block(*args)
+            ctx.chat.send_to(ctx.player, "Block Changed.")
+        else:
+            ctx.chat.send_to(ctx.player, "Usage : /setblock <x> <y> <z> <id>")
 
     def command_heal(self, ctx, *args):
         if len(args):

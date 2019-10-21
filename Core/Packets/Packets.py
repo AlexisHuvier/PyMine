@@ -4,6 +4,17 @@ from quarry.types.chunk import BlockArray
 import os
 
 
+class BlockChangePacket(Packet):
+    def __init__(self, buff, x, y, z, idblock):
+        super(BlockChangePacket, self).__init__(
+            buff, "block_change",
+            (
+                ("position", x, y, z),
+                ("int", idblock)
+            )
+        )
+
+
 class HealthFoodPacket(Packet):
     def __init__(self, buff, health=20, food=20, saturation=0.5):
         super(HealthFoodPacket, self).__init__(
