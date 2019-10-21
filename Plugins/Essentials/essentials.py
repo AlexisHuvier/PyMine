@@ -12,13 +12,40 @@ class Essentials:
             ["plugins", self.command_plugins, "Liste des plugins installés"],
             ["kick", self.command_kick, "Ejecte quelqu'un du server", 1],
             ["heal", self.command_heal, "Donne toute sa vie et sa bouffe à un joueur", 1],
-            ["setblock", self.command_setblock, "Défini un bloc", 1]
+            ["setblock", self.command_setblock, "Définis un bloc", 1],
+            ["weather", self.command_weather, "Définis la météo", 1],
+            ["gamemode", self.command_gamemode, "Change son mode de jeu", 1]
         ]
         for command in commands:
             server.command_manager.register(*command)
 
     def player_joined(self, player):
         player.set_player_list_header_footer("Serveur PyMine", "Réalisé par LavaPower")
+
+    def command_weather(self, ctx, *args):
+        if len(args):
+            if args[0] == "clear":
+                ctx.world.set_weather(False)
+                ctx.chat.send_to(ctx.player, "La pluie s'arrête.")
+            elif args[0] == "rain":
+                ctx.world.set_weather(True)
+                ctx.chat.send_to(ctx.player, "La pluie commence.")
+        else:
+            ctx.chat.send_to(ctx.player, "Usage : /weather <clear|rain>")
+
+    def command_gamemode(self, ctx, *args):
+        if len(args):
+            if args[0].isnumeric():
+                gm = int(args[0])
+                if 0 <= gm <= 3:
+                    ctx.player.set_gamemode(gm)
+                    ctx.chat.send_to(ctx.player, "Mode de jeu changé pour : " + args[0] + ".")
+                else:
+                    ctx.chat.send_to(ctx.player, "Mode de jeu inconnu.")
+            else:
+                ctx.chat.send_to(ctx.player, "Mode de jeu inconnu.")
+        else:
+            ctx.chat.send_to(ctx.player, "Usage : /gamemode <0|1|2|3>")
 
     def command_setblock(self, ctx, *args):
         if len(args) == 4:

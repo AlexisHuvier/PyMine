@@ -1,4 +1,4 @@
-from Core.Packets import ChunkDataPacket, BlockChangePacket
+from Core.Packets import ChunkDataPacket, BlockChangePacket, ChangeGameStatePacket
 
 
 class World:
@@ -14,6 +14,11 @@ class World:
         bspacket = BlockChangePacket(self.protocol.buff_type, int(x), int(y), int(z), int(idblock))
         for i in self.protocol.server.players:
             i.send_packet(bspacket.type_, *bspacket.datas)
+
+    def set_weather(self, is_rainning=False):
+        cgspacket = ChangeGameStatePacket(self.protocol.buff_type, int(is_rainning)+1)
+        for i in self.protocol.server.players:
+            i.send_packet(cgspacket.type_, *cgspacket.datas)
 
     def packet_player_block_placement(self, buff):
         main_hand = buff.unpack_varint() == 0

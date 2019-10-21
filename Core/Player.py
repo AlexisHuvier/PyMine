@@ -91,3 +91,7 @@ class Player(ServerProtocol):
     def set_health_food(self, health=20, food=20, saturation=0.5):
         hfpacket = HealthFoodPacket(self.buff_type, health, food, saturation)
         self.send_packet(hfpacket.type_, *hfpacket.datas)
+
+    def set_gamemode(self, gamemode):
+        cgspacket = ChangeGameStatePacket(self.buff_type, 3, gamemode)
+        self.send_packet(cgspacket.type_, *cgspacket.datas)
