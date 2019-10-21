@@ -3,11 +3,11 @@ class Packet:
         self.type_ = type_
         self.infos = infos
         self.buff = buff
-        self.datas = self.get_datas()
+        self.datas = self.get_datas(self.infos)
 
-    def get_datas(self):
+    def get_datas(self, infos):
         liste = []
-        for i in self.infos:
+        for i in infos:
             if i[0] == "chat":
                 liste.append(self.buff.pack_chat(i[1]))
             elif i[0] == "pack":
