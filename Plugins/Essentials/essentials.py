@@ -100,12 +100,35 @@ class Essentials:
             ctx.chat.send_to(ctx.player, "Usage : /tp <x> <y> <z>")
 
     def command_help(self, ctx, *args):
-        ctx.chat.send_to(ctx.player, "Liste des commandes")
-        ctx.chat.send_to(ctx.player, "=========================")
-        for i in ctx.player.server.command_manager.commands:
-            if i.permission == 0 or ctx.is_op(ctx.player.display_name):
-                ctx.chat.send_to(ctx.player, "{} : {}".format(i.name, i.description))
-        ctx.chat.send_to(ctx.player, "=========================")
+        numperpage = 6
+
+        if len(args) == 0:
+            page = 1
+        else:
+            page = int(args[0])
+
+        maxpage = len(ctx.player.server.command_manager.commands) // numperpage
+        if len(ctx.player.server.command_manager.commands) % numperpage:
+            maxpage += 1
+
+        if page > maxpage:
+            ctx.chat.send_to(ctx.player, "Page introuvable. Page maximum : "+str(maxpage))
+            return
+
+        ctx.chat.send_to(ctx.player, "==============================")
+        ctx.chat.send_to(ctx.player, "Liste des commandes : "+str(page)+"/"+str(maxpage))
+        ctx.chat.send_to(ctx.player, "==============================")
+
+        for i in range(numperpage):
+            try:
+                command = ctx.player.server.command_manager.commands[numperpage * (page-1) + i]
+                if command.permission:
+                    ctx.chat.send_to(ctx.player, "{} : {} (STAFF)".format(command.name, command.description))
+                else:
+                    ctx.chat.send_to(ctx.player, "{} : {}".format(command.name, command.description))
+            except IndexError:
+                ctx.chat.send_to(ctx.player, "")
+        ctx.chat.send_to(ctx.player, "==============================")
 
     def command_stop(self, ctx, *args):
         ctx.chat.send_to_all("[PLUGIN] Fermeture du serveur")
