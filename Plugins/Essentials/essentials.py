@@ -23,7 +23,7 @@ class Essentials:
     def command_setblock(self, ctx, *args):
         if len(args) == 4:
             ctx.world.set_block(*args)
-            ctx.chat.send_to(ctx.player, "Block Changed.")
+            ctx.chat.send_to(ctx.player, "Bloc changé.")
         else:
             ctx.chat.send_to(ctx.player, "Usage : /setblock <x> <y> <z> <id>")
 

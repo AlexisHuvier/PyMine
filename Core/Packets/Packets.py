@@ -4,6 +4,21 @@ from quarry.types.chunk import BlockArray
 import os
 
 
+class ChangeGameStatePacket(Packet):
+    def __init__(self, buff, reason, value=None):
+        if value:
+            liste = (
+                ("int", reason),
+                ("int", value)
+            )
+        else:
+            liste = (
+                ("int", reason),
+            )
+
+        super(ChangeGameStatePacket, self).__init__(buff, "change_game_state", liste)
+
+
 class BlockChangePacket(Packet):
     def __init__(self, buff, x, y, z, idblock):
         super(BlockChangePacket, self).__init__(
