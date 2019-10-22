@@ -5,18 +5,10 @@ import os
 
 
 class ChangeGameStatePacket(Packet):
-    def __init__(self, buff, reason, value=None):
-        if value:
-            liste = (
-                ("int", reason),
-                ("int", value)
-            )
-        else:
-            liste = (
-                ("int", reason),
-            )
-
-        super(ChangeGameStatePacket, self).__init__(buff, "change_game_state", liste)
+    def __init__(self, buff, reason, value=0):
+        super(ChangeGameStatePacket, self).__init__(buff, "change_game_state", (
+            ("pack", "Bf", int(reason), float(value)),
+        ))
 
 
 class BlockChangePacket(Packet):
