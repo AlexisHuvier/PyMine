@@ -13,7 +13,7 @@ class Player(ServerProtocol):
         self.chat = Chat(self)
         self.server_utils = ServerUtils(self)
         self.world = World(self)
-        self.infos = PlayerInfo()
+        self.infos = PlayerInfo(self)
         self.server = factory
 
     def player_joined(self):
@@ -60,6 +60,14 @@ class Player(ServerProtocol):
     def packet_use_item(self, buff):
         main_hand = buff.unpack_varint() == 0
         self.server.plugin_manager.call("use_item", self, main_hand)
+
+    def packet_player_position(self, buff):
+        x, y, z, on_ground = buff.unpack('dddb')
+        self.infos.set_position(x, y, z)
+
+    def packet_player_position_and_look(self, buff):
+        x, y, z, xr, yr, on_ground = buff.unpack('dddffb')
+        self.infos.set_position(x, y, z)
 
     def set_spawn_position(self, x, y, z):
         spacket = SpawnPositionPacket(self.buff_type, x, y, z)
