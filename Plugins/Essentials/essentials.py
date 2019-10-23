@@ -178,8 +178,16 @@ class Essentials:
                 ctx.chat.send_to(ctx.player, "Téléportation effectuée")
             else:
                 ctx.chat.send_to(ctx.player, "Usage : /tp <x> <y> <z>")
+        elif len(args) == 1:
+            for player in ctx.players:
+                if player.display_name == args[0]:
+                    ctx.player.set_position(player.infos.x, player.infos.y, player.infos.z)
+                    ctx.chat.send_to(ctx.player, "Téléportation vers "+args[0])
+                    ctx.chat.send_to(player, ctx.player.display_name+" s'est téléporté vers toi")
+                    return
+            ctx.chat.send_to(ctx.player, "Joueur introuvable")
         else:
-            ctx.chat.send_to(ctx.player, "Usage : /tp <x> <y> <z>")
+            ctx.chat.send_to(ctx.player, "Usage : /tp <x> <y> <z> | /tp <player>")
 
     def command_help(self, ctx, *args):
         numperpage = 6
@@ -213,8 +221,7 @@ class Essentials:
         ctx.chat.send_to(ctx.player, "==============================")
 
     def command_stop(self, ctx, *args):
-        ctx.chat.send_to_all("[PLUGIN] Fermeture du serveur")
-        ctx.player.logger.info("Close server")
+        ctx.server.logger.info("Server close by "+ctx.player.display_name)
         reactor.removeAll()
         reactor.iterate()
         reactor.stop()
