@@ -14,13 +14,24 @@ class Essentials:
             ["heal", self.command_heal, "Donne toute sa vie et sa bouffe à un joueur", 1],
             ["setblock", self.command_setblock, "Définis un bloc", 1],
             ["weather", self.command_weather, "Définis la météo", 1],
-            ["gamemode", self.command_gamemode, "Change son mode de jeu", 1]
+            ["gamemode", self.command_gamemode, "Change son mode de jeu", 1],
+            ["exp", self.command_exp, "Définis son nombre d'expérience", 1]
         ]
         for command in commands:
             server.command_manager.register(*command)
 
     def player_joined(self, player):
         player.set_player_list_header_footer("Serveur PyMine", "Réalisé par LavaPower")
+
+    def command_exp(self, ctx, *args):
+        if len(args) == 2:
+            if args[0].isnumeric() and args[1].isnumeric():
+                ctx.player.set_experience(int(args[0]), int(args[1]))
+                ctx.chat.send_to(ctx.player, "Expérience modifiée")
+            else:
+                ctx.chat.send_to(ctx.player, "Usage : /exp <level> <exp>")
+        else:
+            ctx.chat.send_to(ctx.player, "Usage : /exp <level> <exp>")
 
     def command_weather(self, ctx, *args):
         if len(args):

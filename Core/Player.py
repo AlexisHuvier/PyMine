@@ -70,6 +70,36 @@ class Player(ServerProtocol):
         plpacket = PlayerPositionLookPacket(self.buff_type, x=x, y=y, z=z)
         self.send_packet(plpacket.type_, *plpacket.datas)
 
+    def set_experience(self, level=None, exp=None):
+        if level is None:
+            level = self.infos.level
+        if exp is None:
+            exp = self.infos.exp
+        self.infos.level = level
+        self.infos.exp = exp
+
+        if level <= 16:
+            total = level ** 2 + 6 * level
+        elif level <= 31:
+            total = 2.5 * level ** 2 - 40.5 * level + 360
+        else:
+            total = 4.5 * level ** 2 - 162.5 * level + 2220
+
+        if level <= 15:
+            need = 2 * level + 7
+        elif level <= 30:
+            need = 5 * level - 38
+        else:
+            need = 9 * level - 158
+
+        if exp > need:
+            exp = need
+
+        percent = exp / need
+
+        epacket = ExperiencePacket(self.buff_type, percent, level, total)
+        self.send_packet(epacket.type_, *epacket.datas)
+
     def set_title(self, title, subtitle=""):
         tpacket = TitlePacket(self.buff_type, title, 0)
         stpacket = TitlePacket(self.buff_type, subtitle, 1)

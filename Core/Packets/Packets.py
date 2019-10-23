@@ -4,6 +4,18 @@ from quarry.types.chunk import BlockArray
 import os
 
 
+class ExperiencePacket(Packet):
+    def __init__(self, buff, exp_bar, level, exp_total):
+        super(ExperiencePacket, self).__init__(
+            buff, "set_experience",
+            (
+                ("pack", "f", float(exp_bar)),
+                ("int", int(level)),
+                ("int", int(exp_total))
+            )
+        )
+
+
 class ChangeGameStatePacket(Packet):
     def __init__(self, buff, reason, value=0):
         super(ChangeGameStatePacket, self).__init__(buff, "change_game_state", (
