@@ -4,15 +4,15 @@ import importlib
 
 
 class Plugin:
-    def __init__(self, file):
-        self.path = os.path.join(os.path.dirname(__file__), "..", "Plugins", os.path.dirname(file))
-        with open(os.path.join(self.path, os.path.basename(file)), "r") as f:
+    def __init__(self, directory):
+        self.path = os.path.join(os.path.dirname(__file__), "..", "Plugins", directory)
+        with open(os.path.join(self.path, "plugin.json"), "r") as f:
             data = json.load(f)
-        self.file = file
+        self.directory = directory
         self.name = data["name"]
         self.description = data["description"]
         self.version = data["version"]
-        self.module = importlib.import_module("Plugins."+os.path.dirname(file)+"."+data["main_file"])
+        self.module = importlib.import_module("Plugins."+directory+"."+data["main_file"])
         self.instance = self.module.instance
 
 
