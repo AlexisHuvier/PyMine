@@ -2,7 +2,8 @@
     "server": {
         "motd": "PyMine Server",
         "online_mode": true,
-        "max_players": 5
+        "max_players": 5,
+        "log_level": "info"
     },
     "plugins": [
         "Demo",
