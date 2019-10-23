@@ -56,7 +56,7 @@ class Essentials:
             ctx.chat.send_to(ctx.player, "Usage : /weather <clear|rain>")
 
     def command_gamemode(self, ctx, *args):
-        if len(args):
+        if len(args) == 1:
             if args[0].isnumeric():
                 gm = int(args[0])
                 if 0 <= gm <= 3:
@@ -66,6 +66,17 @@ class Essentials:
                     ctx.chat.send_to(ctx.player, "Mode de jeu inconnu.")
             else:
                 ctx.chat.send_to(ctx.player, "Mode de jeu inconnu.")
+        elif len(args) == 2:
+            for player in ctx.players:
+                if player.display_name == args[0]:
+                    if args[1].isnumeric():
+                        ctx.chat.send_to(ctx.player, "Changement du mode de jeu de "+player.display_name)
+                        ctx.player = player
+                        self.command_gamemode(ctx, args[1])
+                    else:
+                        ctx.chat.send_to(ctx.player, "Mode de jeu inconnu.")
+                    return
+            ctx.chat.send_to(ctx.player, "Joueur introuvable")
         else:
             ctx.chat.send_to(ctx.player, "Usage : /gamemode <0|1|2|3>")
 
