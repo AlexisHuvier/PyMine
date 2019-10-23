@@ -40,6 +40,20 @@ class CommandManager:
                 return
         self.commands.append(Command(plugin, command, function, description, permission))
 
+    def unregister(self, command):
+        for k, v in enumerate(self.commands):
+            if v.name == command:
+                del self.commands[k]
+                self.factory.logger.info("Unregister command : "+command)
+                return True
+        self.factory.logger.warning("Unregister unknown command : "+command)
+        return False
+
+    def unregister_plugin(self, plugin):
+        for i in self.commands:
+            if i.plugin == plugin:
+                self.unregister(i.name)
+
     def call_command(self, protocol, message):
         command, *args = message.split(" ")
         for i in self.commands:

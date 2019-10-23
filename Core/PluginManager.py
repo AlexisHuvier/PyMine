@@ -42,6 +42,7 @@ class PluginManager:
             if v.directory == plugin:
                 del self.plugins[k]
                 self.factory.logger.info("Unload plugin : {}".format(plugin))
+                self.factory.command_manager.unregister_plugin(v.instance)
                 return
         self.factory.logger.warning("Plugin already unload : {}".format(plugin))
 
