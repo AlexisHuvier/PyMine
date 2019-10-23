@@ -20,6 +20,7 @@ class CommandContext:
         self.server_utils = player.server_utils
         self.world = player.world
         self.players = player.factory.players
+        self.server = player.factory
 
     def is_op(self, username):
         if username in self.player.server.command_manager.ops:
