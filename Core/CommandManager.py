@@ -1,9 +1,10 @@
 class Command:
-    def __init__(self, name, function,  description="", permission=0):
+    def __init__(self, plugin, name, function,  description="", permission=0):
         self.name = name
         self.function = function
         self.permission = permission
         self.description = description
+        self.plugin = plugin
 
     def execute(self, ctx, *args):
         if self.permission == 1 and not ctx.is_op(ctx.player.display_name):
@@ -32,12 +33,12 @@ class CommandManager:
         self.commands = []
         self.ops = factory.config.get("ops", [])
 
-    def register(self, command, function, description="", permission=0):
+    def register(self, plugin, command, function, description="", permission=0):
         for i in self.commands:
             if i.name == command:
-                self.factory.logger.warn("Command already exist : "+command)
+                self.factory.logger.warning("Command already exist : "+command)
                 return
-        self.commands.append(Command(command, function, description, permission))
+        self.commands.append(Command(plugin, command, function, description, permission))
 
     def call_command(self, protocol, message):
         command, *args = message.split(" ")
