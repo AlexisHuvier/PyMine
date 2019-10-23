@@ -12,6 +12,8 @@ class Demo:
 
     def player_left(self, player):
         self.logger.info("Demo : PLAYER_LEFT. (Player : %s )", player)
+    def player_move(self, player, x, y, z):
+        self.logger.debug("Demo : PLAYER_MOVE. (Player : %s. Pos : %s )", player, [x, y, z])
 
     def chat_message(self, message):
         self.logger.info("Demo : CHAT_MESSAGE. (Message : %s )", message)
