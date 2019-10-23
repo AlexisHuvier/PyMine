@@ -4,24 +4,46 @@ from twisted.internet import reactor
 class Essentials:
     def start(self, server):
         commands = [
-            ["essentials", self.command_info, "Information sur le plugin Essentials"],
-            ["help", self.command_help, "Liste des commandes"],
-            ["stop", self.command_stop, "Arrête le serveur", 1],
-            ["tp", self.command_tp, "Se téléporter à des coordonnées", 1],
-            ["broadcast", self.command_broadcast, "Faire une annonce globale", 1],
-            ["plugins", self.command_plugins, "Liste des plugins installés"],
-            ["kick", self.command_kick, "Ejecte quelqu'un du server", 1],
-            ["heal", self.command_heal, "Donne toute sa vie et sa bouffe à un joueur", 1],
-            ["setblock", self.command_setblock, "Définis un bloc", 1],
-            ["weather", self.command_weather, "Définis la météo", 1],
-            ["gamemode", self.command_gamemode, "Change son mode de jeu", 1],
-            ["exp", self.command_exp, "Définis son nombre d'expérience", 1]
+            [self, "essentials", self.command_info, "Information sur le plugin Essentials"],
+            [self, "help", self.command_help, "Liste des commandes"],
+            [self, "stop", self.command_stop, "Arrête le serveur", 1],
+            [self, "tp", self.command_tp, "Se téléporter à des coordonnées", 1],
+            [self, "broadcast", self.command_broadcast, "Faire une annonce globale", 1],
+            [self, "plugins", self.command_plugins, "Liste des plugins installés"],
+            [self, "kick", self.command_kick, "Ejecte quelqu'un du server", 1],
+            [self, "heal", self.command_heal, "Donne toute sa vie et sa bouffe à un joueur", 1],
+            [self, "setblock", self.command_setblock, "Définis un bloc", 1],
+            [self, "weather", self.command_weather, "Définis la météo", 1],
+            [self, "gamemode", self.command_gamemode, "Change son mode de jeu", 1],
+            [self, "exp", self.command_exp, "Définis son nombre d'expérience", 1],
+            [self, "plugin", self.command_plugin, "Gérer les plugins", 1]
         ]
         for command in commands:
             server.command_manager.register(*command)
 
     def player_joined(self, player):
         player.set_player_list_header_footer("Serveur PyMine", "Réalisé par LavaPower")
+
+    def command_plugin(self, ctx, *args):
+        if len(args) == 2:
+            if args[0] == "load":
+                try:
+                    ctx.server.plugin_manager.load(args[1])
+                except Exception as e:
+                    ctx.chat.send_to(ctx.player, "Erreur lors du chargement : "+str(e))
+                else:
+                    ctx.chat.send_to(ctx.player, "Plugin chargé : "+args[1])
+            elif args[0] == "unload":
+                try:
+                    ctx.server.plugin_manager.unload(args[1])
+                except Exception as e:
+                    ctx.chat.send_to(ctx.player, "Erreur lors du déchargement : "+str(e))
+                else:
+                    ctx.chat.send_to(ctx.player, "Plugin déchargé : "+args[1])
+            else:
+                ctx.chat.send_to(ctx.player, "Usage : /plugin <load|unload> <file>")
+        else:
+            ctx.chat.send_to(ctx.player, "Usage : /plugin <load|unload> <file>")
 
     def command_exp(self, ctx, *args):
         if len(args) == 2:
