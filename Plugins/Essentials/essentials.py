@@ -30,6 +30,17 @@ class Essentials:
                 ctx.chat.send_to(ctx.player, "Expérience modifiée")
             else:
                 ctx.chat.send_to(ctx.player, "Usage : /exp <level> <exp>")
+        elif len(args) == 3:
+            for player in ctx.players:
+                if player.display_name == args[0]:
+                    if args[1].isnumeric() and args[2].isnumeric():
+                        ctx.chat.send_to(ctx.player, "Changement de l'expérience de "+player.display_name)
+                        ctx.player = player
+                        self.command_exp(ctx, *args[1:])
+                    else:
+                        ctx.chat.send_to(ctx.player, "Usage : /exp "+args[0]+" <level> <exp>")
+                    return
+            ctx.chat.send_to(ctx.player, "Joueur introuvable")
         else:
             ctx.chat.send_to(ctx.player, "Usage : /exp <level> <exp>")
 
