@@ -3,7 +3,9 @@
         "motd": "PyMine Server",
         "online_mode": true,
         "max_players": 5,
-        "log_level": "debug"
+        "log_level": "info",
+        "port": 2555,
+        "ip": "127.0.0.1"
     },
     "plugins": [
         "Demo",

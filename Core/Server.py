@@ -40,7 +40,7 @@ class Server(ServerFactory):
         filehandler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s : %(message)s"))
 
         self.logger.addHandler(filehandler)
-        self.logger.info("Server started.")
+        self.logger.info("Server started on {}:{}.".format(self.config.get("server.ip", "127.0.0.2"), self.config.get("server.port", 25565)))
 
         self.command_manager = CommandManager(self)
         self.plugin_manager = PluginManager(self, self.config.get("plugins", []))
