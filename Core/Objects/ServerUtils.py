@@ -1,4 +1,4 @@
-from Core.Packets import StatusResponsePacket
+from core.packets import StatusResponsePacket
 
 
 class ServerUtils:
@@ -19,7 +19,7 @@ class ServerUtils:
                 "max": self.protocol.factory.max_players
             },
             "version": {
-                "name": "PyMine 1.14.4",
+                "name": "PyMine 1.16",
                 "protocol": protocol_version
             }
         }

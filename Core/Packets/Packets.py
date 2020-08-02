@@ -1,4 +1,4 @@
-from Core.Packets.Packet import Packet
+from core.packets.Packet import Packet
 from quarry.types.nbt import RegionFile, TagRoot
 from quarry.types.chunk import BlockArray
 import os
@@ -89,15 +89,14 @@ class ChatMessagePacket(Packet):
 
 
 class JoinGamePacket(Packet):
-    def __init__(self, buff, eid=0, gamemode=0, dimension=0, maxplayers=0, level_type="DEFAULT", view=1,
-                 reduced_debug=False):
+    def __init__(self, buff, eid=0, gamemode=0, dimension=0, level_type = "flat", view = 1):
         super(JoinGamePacket, self).__init__(
             buff, "join_game",
             (
-                ("pack", "iBiB", eid, gamemode, dimension, maxplayers),
-                ("str", level_type),
-                ("int", view),
-                ("pack", "?", reduced_debug)
+                ("pack", "iBiqB", eid, gamemode, dimension, 0, 0), # Entity ID, GameMode, Dimension, Hashed Seed, MaxPlayers
+                ("str", level_type), # Level Type
+                ("int", view), # View Distance
+                ("pack", "??", False, True) # Reduced DebugInfo, RespawnScreen
             )
         )
 
@@ -160,7 +159,7 @@ class ChunkDataPacket(Packet):
             ("pack", "ii?", xplayer, zplayer, full),
             ("chunk_bitmask", sections),
             ("nbt", heightmap),
-            ("chunk", sections, biomes),
+            ("chunk", sections),
             ("int", len(blocks_entities)),
             ("list_nbt", blocks_entities)
         ))

@@ -1,14 +1,13 @@
 from quarry.net.server import ServerProtocol
-from Core.Plugins import ServerUtils, Chat, World
-from Core.Packets import *
-from Core.Objects import PlayerInfo
+from core.packets import *
+from core.objects import *
 
 import logging
 
 
-class Player(ServerProtocol):
+class Protocol(ServerProtocol):
     def __init__(self, factory, remote_addr):
-        super(Player, self).__init__(factory, remote_addr)
+        super(Protocol, self).__init__(factory, remote_addr)
         self.logger.setLevel(logging.ERROR)
         self.chat = Chat(self)
         self.server_utils = ServerUtils(self)
@@ -17,7 +16,7 @@ class Player(ServerProtocol):
         self.server = factory
 
     def player_joined(self):
-        super(Player, self).player_joined()
+        super(Protocol, self).player_joined()
         self.infos.gamemode = 1
         jpacket = JoinGamePacket(self.buff_type, gamemode=self.infos.gamemode)
         self.send_packet(jpacket.type_, *jpacket.datas)
@@ -33,7 +32,7 @@ class Player(ServerProtocol):
         self.ticker.add_loop(20, self.update_keep_alive)
 
     def player_left(self):
-        super(Player, self).player_left()
+        super(Protocol, self).player_left()
         self.chat.send_to_all(
             self.factory.config.get("messages.player_left", "{} a quitté le serveur").format(self.display_name))
         self.factory.logger.info(
@@ -55,7 +54,7 @@ class Player(ServerProtocol):
                 except Exception as e:
                     self.logger.exception(e)
                 buff.restore()
-        super(Player, self).packet_received(buff, name)
+        super(Protocol, self).packet_received(buff, name)
 
     def packet_use_item(self, buff):
         main_hand = buff.unpack_varint() == 0

@@ -4,7 +4,7 @@ import os
 
 class Config:
     def __init__(self):
-        with open(os.path.join(os.path.dirname(__file__), "..", "config.json"), "r") as f:
+        with open(os.path.join(os.path.dirname(__file__), "..", "..", "config.json"), "r") as f:
             self.config = json.load(f)
 
     def get(self, key, default):

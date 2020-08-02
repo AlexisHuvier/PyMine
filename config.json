@@ -3,7 +3,7 @@
         "motd": "PyMine Server",
         "online_mode": true,
         "max_players": 5,
-        "log_level": "info"
+        "log_level": "debug"
     },
     "plugins": [
         "Demo",

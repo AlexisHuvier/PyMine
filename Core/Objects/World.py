@@ -1,4 +1,4 @@
-from Core.Packets import ChunkDataPacket, BlockChangePacket, ChangeGameStatePacket
+from core.packets import ChunkDataPacket, BlockChangePacket, ChangeGameStatePacket
 
 
 class World:
@@ -6,9 +6,7 @@ class World:
         self.protocol = protocol
 
     def player_joined(self):
-        for x in range(0, 2):
-            for z in range(0, 2):
-                self.send_chunk(x, z)
+        print("WIP")
 
     def set_block(self, x, y, z, idblock):
         bspacket = BlockChangePacket(self.protocol.buff_type, int(x), int(y), int(z), int(idblock))

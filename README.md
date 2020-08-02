@@ -1,8 +1,8 @@
 # PyMine
+
  Minecraft Server in Python
- 
- WARNING : This server has been tested in 1.14 and could not work on older versions
- 
+ WARNING : This server has been tested in 1.15.2 and could not work on others versions
+
 ## Dependances
 
 - Python 3
@@ -16,11 +16,10 @@
 
 ## Features
 
-- Player's connection 
+- Player's connection
 - Chat
 - Basic Plugin System
 - Basic Command System
-- Send some chunks
 
 ## Upcoming Features
 

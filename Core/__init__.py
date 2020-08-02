@@ -1,2 +1,2 @@
-from Core.Player import Player
-from Core.Server import Server
+from core.Protocol import Protocol
+from core.Server import Server

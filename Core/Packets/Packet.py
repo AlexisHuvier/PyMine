@@ -25,7 +25,7 @@ class Packet:
             elif i[0] == "nbt":
                 liste.append(self.buff.pack_nbt(i[1]))
             elif i[0] == "chunk":
-                liste.append(self.buff.pack_chunk(i[1], i[2]))
+                liste.append(self.buff.pack_chunk(i[1]))
             elif i[0] == "list_nbt":
                 liste.append(b"".join(self.buff.pack_nbt(entity) for entity in i[1]))
             else:

@@ -5,10 +5,10 @@ import os
 from quarry.net.server import ServerFactory
 from quarry.types.registry import LookupRegistry
 
-from Core.Player import Player
-from Core.Config import Config
-from Core.PluginManager import PluginManager
-from Core.CommandManager import CommandManager
+from core.Protocol import Protocol
+from core.utils import Config
+from core.PluginManager import PluginManager
+from core.CommandManager import CommandManager
 
 levels = {
     "debug": logging.DEBUG,
@@ -20,7 +20,7 @@ levels = {
 
 
 class Server(ServerFactory):
-    protocol = Player
+    protocol = Protocol
 
     def __init__(self):
         super(Server, self).__init__()
@@ -34,7 +34,7 @@ class Server(ServerFactory):
 
         self.logger = logging.getLogger("Server")
         self.logger.setLevel(self.log_level)
-        file = os.path.join(os.path.dirname(__file__), "..", "Logs", "server.log")
+        file = os.path.join(os.path.dirname(__file__), "..", "logs", "server.log")
         filehandler = logging.handlers.RotatingFileHandler(file, maxBytes=10000, backupCount=1)
         filehandler.setLevel(self.logger.level)
         filehandler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s : %(message)s"))
@@ -45,5 +45,3 @@ class Server(ServerFactory):
         self.command_manager = CommandManager(self)
         self.plugin_manager = PluginManager(self, self.config.get("plugins", []))
         self.plugin_manager.call("start", self)
-
-        self.registry = LookupRegistry.from_json(os.path.join(os.path.dirname(__file__), "Datas"))

@@ -1,4 +1,4 @@
-from Core.Packets import ChatMessagePacket
+from core.packets import ChatMessagePacket
 
 
 class Chat:

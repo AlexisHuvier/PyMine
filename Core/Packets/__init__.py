@@ -1,1 +1,1 @@
-from Core.Packets.Packets import *
+from core.packets.Packets import *

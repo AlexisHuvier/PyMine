@@ -1,4 +1,4 @@
-from Core import Server
+from core import Server
 from twisted.internet import reactor
 
 factory = Server()
