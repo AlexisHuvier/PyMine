@@ -135,31 +135,14 @@ class StatusResponsePacket(Packet):
 
 
 class ChunkDataPacket(Packet):
-    def __init__(self, protocol, file, xchunk, zchunk, xplayer=None, zplayer=None):
-        if xplayer is None:
-            xplayer = xchunk
-        if zplayer is None:
-            zplayer = zchunk
-
-        file = RegionFile(os.path.join(os.path.dirname(__file__), "..", "World", "regions", file))
-        self.infos = file.load_chunk(xchunk, zchunk).body.value["Level"].value
-        full = self.infos["Status"].value == 'full'
-        sections = [None] * 16
-        for section in self.infos["Sections"].value:
-            if 'Palette' in section.value:
-                y = section.value["Y"].value
-                blocks = BlockArray.from_nbt(section, protocol.factory.registry)
-                block_light = None
-                sky_light = None
-                sections[y] = (blocks, block_light, sky_light)
-        heightmap = TagRoot.from_body(self.infos["Heightmaps"])
-        biomes = self.infos["Biomes"].value
-        blocks_entities = self.infos["TileEntities"].value
-        super(ChunkDataPacket, self).__init__(protocol.buff_type, "chunk_data", (
-            ("pack", "ii?", xplayer, zplayer, full),
+    def __init__(self, buff, x, z, full, heightmap, sections, biomes, block_entities):
+        super(ChunkDataPacket, self).__init__(buff, "chunk_data", (
+            ("pack", "ii?", x, z, full),
             ("chunk_bitmask", sections),
             ("nbt", heightmap),
+            ("array", "I", biomes),
+            ("int", len(buff.pack_chunk(sections))),
             ("chunk", sections),
-            ("int", len(blocks_entities)),
-            ("list_nbt", blocks_entities)
+            ("int", len(block_entities)),
+            ("list_nbt", block_entities)
         ))

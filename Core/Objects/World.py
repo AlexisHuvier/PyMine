@@ -1,4 +1,7 @@
 from core.packets import ChunkDataPacket, BlockChangePacket, ChangeGameStatePacket
+from quarry.types.nbt import RegionFile, TagRoot, TagCompound, TagLongArray
+from quarry.types.chunk import PackedArray
+from quarry.types.registry import LookupRegistry
 
 
 class World:
@@ -6,7 +9,7 @@ class World:
         self.protocol = protocol
 
     def player_joined(self):
-        print("WIP")
+        self.send_chunk(0, 0)
 
     def set_block(self, x, y, z, idblock):
         bspacket = BlockChangePacket(self.protocol.buff_type, int(x), int(y), int(z), int(idblock))
@@ -52,8 +55,11 @@ class World:
         self.protocol.server.plugin_manager.call(functions[status], self.protocol, *args)
 
     def send_chunk(self, x, z):
+        emptyHeight = TagRoot({"": TagCompound({
+            "MOTION_BLOCKING": TagLongArray(PackedArray.empty_height())
+        })})
         try:
-            cdpacket = ChunkDataPacket(self.protocol, "r.0.0.mca", 0, 0, x, z)
+            cdpacket = ChunkDataPacket(self.protocol.buff_type, x, z, False, emptyHeight, [None]*16, [1]*256, [])
             self.protocol.send_packet(cdpacket.type_, *cdpacket.datas)
         except ValueError:
             pass

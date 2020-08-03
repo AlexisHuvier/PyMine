@@ -28,6 +28,10 @@ class Packet:
                 liste.append(self.buff.pack_chunk(i[1]))
             elif i[0] == "list_nbt":
                 liste.append(b"".join(self.buff.pack_nbt(entity) for entity in i[1]))
+            elif i[0] == "array":
+                liste.append(self.buff.pack_array(i[1], i[2]))
+            elif i[0] == "null":
+                liste.append(b"")
             else:
                 raise TypeError("Unknown data type : "+i[0])
         return liste

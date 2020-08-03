@@ -4,7 +4,7 @@
         "online_mode": true,
         "max_players": 5,
         "log_level": "info",
-        "port": 2555,
+        "port": 25565,
         "ip": "127.0.0.1"
     },
     "plugins": [

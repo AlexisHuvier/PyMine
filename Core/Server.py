@@ -3,7 +3,6 @@ import logging.handlers
 import os
 
 from quarry.net.server import ServerFactory
-from quarry.types.registry import LookupRegistry
 
 from core.Protocol import Protocol
 from core.utils import Config
